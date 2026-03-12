@@ -6,7 +6,7 @@
 #include<malloc.h>
 
 int rec_count = 0; //재귀적 함수 호출 횟수를 저장하기 위한 함수
-#define PROB 1 // 각각의 문제를 구현하고 해당 문제 번호를 변경하여 테스트
+#define PROB 6 // 각각의 문제를 구현하고 해당 문제 번호를 변경하여 테스트
 //---------------------------------------------------------------------------------------------------//
 #if PROB == 1
 /* Compute power(x, n) for int x, n */
@@ -93,7 +93,8 @@ void main(void)
 }
 //---------------------------------------------------------------------------------------------------//
 #elif PROB == 3
-/* Ackerman function */
+/* Ackerman function */ 
+// (반복문은 인터넷 검색 및 이해 후 재작성)
 int itr_Ackerman(int m, int n) {		// 맨 뒤 2개 배열을 각각 현재의 m, n으로 만들고 조건 연산 > 현재의 m이 0이 되면 esp 앞으로 이동/m, n이 0이 아니면 배열 추가 및 esp 뒤로 이동 
 										// > 이 과정을 반복하여 A(m, n)을 전부 배열로 펼치고 끝에서부터 한 칸씩 값을 더하면서 당겨옴 > 최종적으로 m이 모두 사라지면(맨 앞 m이 0이 되어 함수가 정수가 되면) esp가 0번항이 되고 그때의 0번항 값 리턴
 	int ary[100000];
@@ -208,54 +209,58 @@ void main(void)
 //---------------------------------------------------------------------------------------------------//
 #elif PROB == 5
 /* Binary Search */
-int itr_fib(int n) {
-	int result = 0;
-	int first = 0;
-	int second = 1;
+#define SIZE 100
 
-	if (n == 0)
-		return 0;
-	else if (n == 1)
-		return 1;
-	else {
-		for (int i = 2; i <= n; ++i) {
-			result = first + second;
-			first = second;
-			second = result;
-		}
-		return result;
+
+int itr_binS(int data[], int x, int low, int high) {
+	int mid = low + (high - low) / 2;
+	for (int i = mid; i != x;) {
+		if (i > x)
+			high = mid - 1;
+		else
+			low = mid + 1;
+		mid = low + (high - low) / 2;
+		i = mid;
 	}
-
-	return(result);
+	return mid;
 }
 
-int rec_fib(int n) {
+int rec_binS(int data[], int x, int low, int high) {
+	if (low > high)
+		return -1;
+
 	++rec_count;
-	if (n == 0)
-		return 0;
-	else if (n == 1)
-		return 1;
+
+	int mid = low + (high - low) / 2;
+	if (x == data[mid])
+		return mid;
+	else if (x < data[mid])
+		return rec_binS(data, x, low, mid - 1);
 	else
-		return (rec_fib(n - 1) + rec_fib(n - 2));
+		return rec_binS(data, x, mid + 1, high);
+
 }
 void main(void)
 {
-	int n;
+	int data[SIZE];
+	for (int idx = 0; idx < SIZE; idx++) 
+		data[idx] = idx;
+	int x;
 	int result;
 	clock_t start, end;
-	printf("문제 4 \n");
-	printf("Input 피보나치 항 :");
-	scanf("%d", &n);
+	printf("문제 5 \n");
+	printf("찾으려는 idx 값 :");
+	scanf("%d", &x);
 	start = clock();
-	result = itr_fib(n);
+	result = itr_binS(data, x, 0 ,SIZE - 1);
 	end = clock();
-	printf("ITR : %d번째 항의 값 : %d, 수행시간 :%f\n",
-		n, result, (double)(end - start) / CLOCKS_PER_SEC);
+	printf("ITR : %d값의 idx 위치 : %d, 수행시간 :%f\n",
+		x, result, (double)(end - start) / CLOCKS_PER_SEC);
 	start = clock();
-	result = rec_fib(n);
+	result = rec_binS(data, x, 0, SIZE - 1);
 	end = clock();
-	printf("REC : %d번째 항의 값 : %d, 수행시간 :%f, 함수호출횟수 : %d\n",
-		n, result, (double)(end - start) / CLOCKS_PER_SEC, rec_count);
+	printf("REC : %d값의 idx 위치 : %d, 수행시간 :%f, 함수호출횟수 : %d\n",
+		x, result, (double)(end - start) / CLOCKS_PER_SEC, rec_count);
 	return;
 }
 //---------------------------------------------------------------------------------------------------//

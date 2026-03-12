@@ -1,3 +1,0 @@
-﻿  Proj_02_kch.c
-C:\Users\wlsdl\OneDrive\문서\GitHub\ZaryoGuzo\Proj_02_kch\Proj_02_kch\Proj_02_kch.c(38,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  Proj_02_kch.vcxproj -> C:\Users\wlsdl\OneDrive\문서\GitHub\ZaryoGuzo\Proj_02_kch\x64\Debug\Proj_02_kch.exe
